@@ -350,7 +350,10 @@ const Home = () => {
                             <button onClick={() => openLegal('contact')} className="hover:text-indigo-500 transition-colors cursor-pointer">Contact</button>
                         </div>
                     </div>
-                    <p className="text-xs font-bold">© 2026 VideoLighter Technologies. All rights reserved.</p>
+                    <div className="space-y-2">
+                        <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">{t('footer.contact')}</p>
+                        <p className="text-xs font-bold">{t('footer.copyright')}</p>
+                    </div>
                 </div>
             </footer>
 

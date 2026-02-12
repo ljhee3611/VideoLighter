@@ -47,7 +47,8 @@ i18n
                         "cta_start": "Start with Google",
                         "benefit_1": "Includes Windows 10/11 installer",
                         "benefit_2": "All future updates included",
-                        "benefit_3": "Commercial use allowed"
+                        "benefit_3": "Commercial use allowed",
+                        "benefit_4": "100% Offline Processing"
                     },
                     "dashboard": {
                         "title": "Welcome",
@@ -69,7 +70,9 @@ i18n
                         "contact_support": "Contact Support",
                         "billing": "Billing & Orders",
                         "billing_desc": "Manage your payments and invoices on Polar.",
-                        "refund": "Request Refund"
+                        "refund": "Request Refund",
+                        "privacy_title_short": "Privacy Focused",
+                        "privacy_desc_short": "No video leaves your device."
                     },
                     "history": {
                         "refund_note": "For any inquiries, please contact us at contact@smileon.app",
@@ -84,6 +87,10 @@ i18n
                         "title": "VideoLighter | World's Lightest Desktop Video Optimizer",
                         "description": "Compress large videos instantly on your computer. 100% Offline. Lifetime access for only $9.99 one-time. Perfect privacy, no server uploads.",
                         "keywords": "video compressor, video optimizer, desktop video tools, offline video compression, macos video optimizer, windows video optimizer"
+                    },
+                    "footer": {
+                        "contact": "Contact: contact@smileon.app",
+                        "copyright": "© 2026 Smileon Labs. All rights reserved."
                     }
                 }
             },
@@ -127,7 +134,8 @@ i18n
                         "cta_start": "구글로 시작하기",
                         "benefit_1": "Windows 10/11용 설치 프로그램 포함",
                         "benefit_2": "모든 향후 업데이트 포함",
-                        "benefit_3": "상업적 이용 가능"
+                        "benefit_3": "상업적 이용 가능",
+                        "benefit_4": "100% 오프라인 처리"
                     },
                     "dashboard": {
                         "title": "환영합니다",
@@ -149,7 +157,9 @@ i18n
                         "contact_support": "지원팀 문의하기",
                         "billing": "결제 및 영수증 관리",
                         "billing_desc": "Polar 대시보드에서 결제 내역과 영수증을 확인하세요.",
-                        "refund": "환불 요청"
+                        "refund": "환불 요청",
+                        "privacy_title_short": "개인정보 보호 중심",
+                        "privacy_desc_short": "영상이 기기를 떠나지 않습니다."
                     },
                     "history": {
                         "refund_note": "모든 문의는 contact@smileon.app으로 메일 부탁드립니다.",
@@ -164,6 +174,10 @@ i18n
                         "title": "VideoLighter | 세상에서 가장 가벼운 데스크탑 동영상 압축 프로그램",
                         "description": "대용량 영상을 영상 손실 없이 즉시 압축하세요. 100% 오프라인 작동으로 완벽한 보안을 보장합니다. $9.99 단 한 번의 결제로 평생 소장하세요.",
                         "keywords": "동영상 압축, 영상 용량 줄이기, 동영상 최적화, 오프라인 영상 압축, 비디오 라이터, 영상 다이어트"
+                    },
+                    "footer": {
+                        "contact": "문의 : contact@smileon.app",
+                        "copyright": "© 2026 Smileon Labs. All rights reserved."
                     }
                 }
             }

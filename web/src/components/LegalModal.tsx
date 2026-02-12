@@ -34,7 +34,7 @@ const LegalModal = ({ isOpen, onClose, type }: LegalModalProps) => {
                         initial={{ opacity: 0, scale: 0.95, y: 10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                        className={`relative w-full ${type === 'contact' ? 'max-w-md' : 'max-w-2xl'} max-h-[85vh] bg-[var(--card-bg)] border border-[var(--card-border)] rounded-[2rem] shadow-2xl overflow-hidden flex flex-col`}
+                        className={`relative w-full ${type === 'contact' ? 'max-w-md' : 'max-w-2xl'} max-h-[85vh] bg-white/80 dark:bg-[#0f172a]/80 backdrop-blur-2xl border border-[var(--card-border)] rounded-[3rem] shadow-2xl overflow-hidden flex flex-col`}
                     >
                         <div className="px-6 py-5 border-b border-[var(--card-border)] flex justify-between items-center bg-black/5 dark:bg-white/5">
                             <h2 className="text-lg font-bold flex items-center gap-2">

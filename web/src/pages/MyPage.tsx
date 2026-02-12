@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LayoutDashboard, History, LogOut, Copy, Download, HelpCircle, AlertTriangle, Key, Sun, Moon, Menu, ExternalLink } from 'lucide-react';
+import { LayoutDashboard, History, LogOut, Copy, Download, HelpCircle, AlertTriangle, Key, Sun, Moon, Menu, ExternalLink, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -241,15 +241,68 @@ const MyPage = () => {
                                     </div>
                                 </motion.div>
                             ) : (
-                                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass border-[var(--card-border)] bg-[var(--card-bg)] rounded-[2.5rem] p-12 md:p-20 text-center shadow-sm">
-                                    <h3 className="text-2xl font-black mb-4">{t('dashboard.no_license')}</h3>
-                                    <p className="text-[var(--text-muted)] mb-10 text-lg leading-relaxed max-w-lg mx-auto">{t('dashboard.buy_product_desc')}</p>
-                                    <button
-                                        onClick={handlePayment}
-                                        className="inline-block px-12 py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-500 transition-all cursor-pointer shadow-2xl shadow-indigo-600/30 active:scale-95"
-                                    >
-                                        {t('dashboard.buy_product')}
-                                    </button>
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.98 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="max-w-3xl mx-auto w-full"
+                                >
+                                    <div className="relative p-10 md:p-16 rounded-[3rem] border-2 transition-all flex flex-col items-center text-center border-indigo-500 shadow-[0_0_80px_rgba(79,70,229,0.15)] bg-white/70 dark:bg-[#0f172a]/70 backdrop-blur-2xl overflow-hidden">
+                                        <div className="absolute top-0 left-1/2 -translate-x-1/2 px-8 py-2 rounded-b-2xl bg-indigo-600 text-white text-[11px] font-black uppercase tracking-[0.2em] shadow-lg">
+                                            {t('pricing.license_type')}
+                                        </div>
+
+                                        <h3 className="text-3xl md:text-4xl font-black mb-4 mt-4">{t('pricing.program_name')}</h3>
+                                        <p className="mb-12 text-lg text-[var(--text-muted)] font-medium max-w-lg leading-relaxed">{t('pricing.program_desc')}</p>
+
+                                        <div className="mb-12">
+                                            <div className="flex items-center justify-center gap-3">
+                                                <span className="line-through text-3xl font-bold text-gray-500 opacity-40">$29</span>
+                                                <span className="text-7xl font-black text-[var(--text-color)]">$9.99</span>
+                                            </div>
+                                            <p className="text-indigo-600 font-black mt-3 text-sm uppercase tracking-widest">{t('pricing.one_time')}</p>
+                                        </div>
+
+                                        <button
+                                            onClick={handlePayment}
+                                            className="w-full max-w-sm py-5 rounded-2xl bg-indigo-600 text-white font-black text-xl hover:bg-indigo-500 transition-all shadow-2xl shadow-indigo-600/30 active:scale-95 cursor-pointer mb-12"
+                                        >
+                                            {t('pricing.cta_buy')}
+                                        </button>
+
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full text-left">
+                                            {[1, 2, 3].map((i) => (
+                                                <div key={i} className="flex items-center gap-4 text-[var(--text-muted)] font-bold bg-black/5 dark:bg-white/3 p-4 rounded-2xl border border-[var(--card-border)]">
+                                                    <div className="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
+                                                        <Check className="w-4 h-4 text-white" />
+                                                    </div>
+                                                    <span className="text-sm">{t(`pricing.benefit_${i}`)}</span>
+                                                </div>
+                                            ))}
+                                            <div className="flex items-center gap-4 text-[var(--text-muted)] font-bold bg-black/5 dark:bg-white/3 p-4 rounded-2xl border border-[var(--card-border)]">
+                                                <div className="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
+                                                    <Check className="w-4 h-4 text-white" />
+                                                </div>
+                                                <span className="text-sm">{t('pricing.benefit_4')}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="p-8 rounded-[2.5rem] border border-[var(--card-border)] bg-[var(--card-bg)] shadow-sm group hover:border-indigo-500/20 transition-all flex items-center gap-6">
+                                            <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 flex items-center justify-center text-indigo-600 flex-shrink-0"><HelpCircle className="w-6 h-6" /></div>
+                                            <div>
+                                                <h4 className="text-lg font-bold mb-1">{t('dashboard.support')}</h4>
+                                                <button onClick={openContact} className="text-indigo-600 text-sm font-black hover:underline">{t('dashboard.contact_support')}</button>
+                                            </div>
+                                        </div>
+                                        <div className="p-8 rounded-[2.5rem] border border-[var(--card-border)] bg-[var(--card-bg)] shadow-sm group hover:border-indigo-500/20 transition-all flex items-center gap-6">
+                                            <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 flex items-center justify-center text-indigo-600 flex-shrink-0"><AlertTriangle className="w-6 h-6" /></div>
+                                            <div>
+                                                <h4 className="text-lg font-bold mb-1">{t('dashboard.privacy_title_short')}</h4>
+                                                <p className="text-[var(--text-muted)] text-xs font-medium">{t('dashboard.privacy_desc_short')}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </motion.div>
                             )}
                         </div>
@@ -301,8 +354,12 @@ const MyPage = () => {
                         </motion.div>
                     )}
 
-                    <div className="pt-8 border-t border-[var(--card-border)] flex justify-end items-center text-[var(--text-muted)] text-xs font-semibold">
-                        <span>VideoLighter v1.0.0</span>
+                    <div className="pt-8 border-t border-[var(--card-border)] flex flex-col md:flex-row justify-between items-center gap-4 text-[var(--text-muted)] text-[10px] font-bold uppercase tracking-widest">
+                        <span>{t('footer.contact')}</span>
+                        <div className="flex items-center gap-4">
+                            <span>{t('footer.copyright')}</span>
+                            <span className="opacity-40">v1.0.0</span>
+                        </div>
                     </div>
                 </div>
             </main>
