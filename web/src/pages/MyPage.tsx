@@ -15,6 +15,7 @@ interface License {
     status: string;
     created_at: string;
     product_type: string;
+    product_name?: string;
 }
 
 const MyPage = () => {
@@ -146,7 +147,7 @@ const MyPage = () => {
 
             <main className="flex-1 md:ml-64 overflow-y-auto min-h-screen">
                 <header className="p-6 md:p-12 mb-4">
-                    <div className="max-w-4xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -167,38 +168,72 @@ const MyPage = () => {
                     </div>
                 </header>
 
-                <div className="p-6 md:p-12 pt-0 max-w-4xl mx-auto space-y-8">
+                <div className="p-6 md:p-12 pt-0 max-w-6xl mx-auto space-y-12">
                     {activeTab === 'dash' ? (
-                        <>
+                        <div className="space-y-12">
+                            {/* Purchaser Primary Actions Row */}
+                            {licenses.length > 0 && (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    <div className="p-8 rounded-[2.5rem] border border-[var(--card-border)] bg-[var(--card-bg)] shadow-sm group hover:border-indigo-500/30 transition-all">
+                                        <div className="w-14 h-14 rounded-2xl bg-indigo-600/10 flex items-center justify-center mb-6 text-indigo-600"><Download className="w-7 h-7" /></div>
+                                        <h4 className="text-xl font-bold mb-3">{t('hero.download')}</h4>
+                                        <p className="text-[var(--text-muted)] text-sm mb-8 leading-relaxed">{t('dashboard.download_desc')}</p>
+                                        <button onClick={handleDownload} className="w-full py-4.5 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-500 transition-all cursor-pointer shadow-xl shadow-indigo-600/20 mb-4 tracking-tight">
+                                            {t('hero.download')}
+                                        </button>
+                                        <p className="text-[10px] text-center font-bold text-[var(--text-muted)] uppercase tracking-widest">{t('hero.macos_waiting')}</p>
+                                    </div>
+                                    <div className="p-8 rounded-[2.5rem] border border-[var(--card-border)] bg-[var(--card-bg)] shadow-sm group hover:border-indigo-500/30 transition-all">
+                                        <div className="w-14 h-14 rounded-2xl bg-indigo-600/10 flex items-center justify-center mb-6 text-indigo-600"><ExternalLink className="w-7 h-7" /></div>
+                                        <h4 className="text-xl font-bold mb-3">{t('dashboard.billing')}</h4>
+                                        <p className="text-[var(--text-muted)] text-sm mb-10 leading-relaxed">{t('dashboard.billing_desc')}</p>
+                                        <a
+                                            href="https://polar.sh/purchases"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-full py-4.5 text-center border border-[var(--card-border)] rounded-2xl font-bold hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer block transition-all mb-4"
+                                        >
+                                            {t('dashboard.billing')}
+                                        </a>
+                                    </div>
+                                    <div className="p-8 rounded-[2.5rem] border border-[var(--card-border)] bg-[var(--card-bg)] shadow-sm group hover:border-indigo-500/30 transition-all">
+                                        <div className="w-14 h-14 rounded-2xl bg-indigo-600/10 flex items-center justify-center mb-6 text-indigo-600"><HelpCircle className="w-7 h-7" /></div>
+                                        <h4 className="text-xl font-bold mb-3">{t('dashboard.support')}</h4>
+                                        <p className="text-[var(--text-muted)] text-sm mb-10 leading-relaxed">{t('dashboard.support_desc')}</p>
+                                        <button onClick={openContact} className="w-full py-4.5 border border-[var(--card-border)] rounded-2xl font-bold hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer transition-all mb-4">{t('dashboard.contact_support')}</button>
+                                    </div>
+                                </div>
+                            )}
+
                             {loading ? (
-                                <div className="glass border-[var(--card-border)] rounded-[2rem] p-12 flex items-center justify-center">
-                                    <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                                <div className="glass border-[var(--card-border)] rounded-[2.5rem] p-20 flex items-center justify-center">
+                                    <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
                                 </div>
                             ) : licenses.length > 0 ? (
-                                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass border-[var(--card-border)] bg-[var(--card-bg)] rounded-[2rem] p-8 md:p-12 relative overflow-hidden shadow-sm">
-                                    <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/5 blur-[80px] -mr-32 -mt-32"></div>
+                                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass border-[var(--card-border)] bg-[var(--card-bg)] rounded-[2.5rem] p-10 md:p-14 relative overflow-hidden shadow-sm">
+                                    <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-600/5 blur-[100px] -mr-40 -mt-40"></div>
                                     <div className="relative z-10">
-                                        <div className="flex items-center justify-between mb-8">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center">
-                                                    <Key className="w-5 h-5 text-indigo-600" />
+                                        <div className="flex items-center justify-between mb-10">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 border border-indigo-500/20 flex items-center justify-center text-indigo-600">
+                                                    <Key className="w-6 h-6" />
                                                 </div>
-                                                <span className="font-black uppercase tracking-widest text-[10px] text-indigo-600">{t('dashboard.license_status')}</span>
+                                                <span className="font-black uppercase tracking-widest text-[11px] text-indigo-600">{t('dashboard.license_status')}</span>
                                             </div>
-                                            <div className="flex items-center gap-2 bg-emerald-500/10 text-emerald-600 px-4 py-1.5 rounded-full border border-emerald-500/20 text-xs font-bold">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                            <div className="flex items-center gap-2.5 bg-emerald-500/10 text-emerald-600 px-5 py-2 rounded-full border border-emerald-500/20 text-xs font-black">
+                                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                                                 {t('dashboard.active')}
                                             </div>
                                         </div>
-                                        <div className="space-y-6">
+                                        <div className="space-y-8">
                                             <div>
-                                                <h3 className="text-2xl font-bold mb-2">{t('dashboard.active_license')}</h3>
-                                                <p className="text-[var(--text-muted)] text-sm leading-relaxed">{t('dashboard.license_desc')}</p>
+                                                <h3 className="text-3xl md:text-4xl font-black mb-4">{t('dashboard.active_license')}</h3>
+                                                <p className="text-[var(--text-muted)] text-base md:text-lg leading-relaxed max-w-3xl">{t('dashboard.license_desc')}</p>
                                             </div>
-                                            <div className="p-5 bg-black/5 dark:bg-black/40 border border-[var(--card-border)] rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4">
-                                                <code className="text-indigo-600 font-mono text-lg md:text-xl tracking-wider select-all">{licenses[0].license_key}</code>
-                                                <button onClick={() => handleCopy(licenses[0].license_key)} className="w-full md:w-auto px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-500 transition-all cursor-pointer shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2">
-                                                    <Copy className="w-4 h-4" />
+                                            <div className="p-6 md:p-8 bg-black/5 dark:bg-black/40 border border-[var(--card-border)] rounded-[2rem] flex flex-col md:flex-row items-center justify-between gap-6">
+                                                <code className="text-indigo-600 font-mono text-xl md:text-3xl tracking-widest select-all">{licenses[0].license_key}</code>
+                                                <button onClick={() => handleCopy(licenses[0].license_key)} className="w-full md:w-auto px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-500 transition-all cursor-pointer shadow-2xl shadow-indigo-600/30 flex items-center justify-center gap-3 active:scale-95">
+                                                    <Copy className="w-5 h-5" />
                                                     {t('dashboard.copy')}
                                                 </button>
                                             </div>
@@ -206,53 +241,18 @@ const MyPage = () => {
                                     </div>
                                 </motion.div>
                             ) : (
-                                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass border-[var(--card-border)] bg-[var(--card-bg)] rounded-[2rem] p-8 md:p-12 text-center shadow-sm">
-                                    <h3 className="text-xl font-bold mb-2">{t('dashboard.no_license')}</h3>
-                                    <p className="text-[var(--text-muted)] mb-8 text-sm">{t('dashboard.buy_product_desc')}</p>
+                                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass border-[var(--card-border)] bg-[var(--card-bg)] rounded-[2.5rem] p-12 md:p-20 text-center shadow-sm">
+                                    <h3 className="text-2xl font-black mb-4">{t('dashboard.no_license')}</h3>
+                                    <p className="text-[var(--text-muted)] mb-10 text-lg leading-relaxed max-w-lg mx-auto">{t('dashboard.buy_product_desc')}</p>
                                     <button
                                         onClick={handlePayment}
-                                        className="inline-block px-10 py-4 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-500 transition-all cursor-pointer shadow-lg shadow-indigo-600/20 active:scale-95"
+                                        className="inline-block px-12 py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl hover:bg-indigo-500 transition-all cursor-pointer shadow-2xl shadow-indigo-600/30 active:scale-95"
                                     >
                                         {t('dashboard.buy_product')}
                                     </button>
                                 </motion.div>
                             )}
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {licenses.length > 0 && (
-                                    <>
-                                        <div className="p-8 rounded-[2rem] border border-[var(--card-border)] bg-[var(--card-bg)] shadow-sm group">
-                                            <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 flex items-center justify-center mb-6 text-indigo-600"><Download className="w-6 h-6" /></div>
-                                            <h4 className="text-lg font-bold mb-2">{t('hero.download')}</h4>
-                                            <p className="text-[var(--text-muted)] text-sm mb-6">{t('dashboard.download_desc')}</p>
-                                            <button onClick={handleDownload} className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-500 transition-all cursor-pointer shadow-lg shadow-indigo-600/10 mb-3 tracking-tight">
-                                                {t('hero.download')}
-                                            </button>
-                                            <p className="text-[10px] text-center font-bold text-[var(--text-muted)] uppercase tracking-wider">{t('hero.macos_waiting')}</p>
-                                        </div>
-                                        <div className="p-8 rounded-[2rem] border border-[var(--card-border)] bg-[var(--card-bg)] shadow-sm group">
-                                            <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 flex items-center justify-center mb-6 text-indigo-600"><ExternalLink className="w-6 h-6" /></div>
-                                            <h4 className="text-lg font-bold mb-2">{t('dashboard.billing')}</h4>
-                                            <p className="text-[var(--text-muted)] text-sm mb-8">{t('dashboard.billing_desc')}</p>
-                                            <a
-                                                href="https://polar.sh/customer-portal"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="w-full py-4 text-center border border-[var(--card-border)] rounded-2xl font-bold hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer block transition-all"
-                                            >
-                                                {t('dashboard.billing')}
-                                            </a>
-                                        </div>
-                                    </>
-                                )}
-                                <div className={`p-8 rounded-[2rem] border border-[var(--card-border)] bg-[var(--card-bg)] shadow-sm ${licenses.length === 0 ? 'md:col-span-2' : ''}`}>
-                                    <div className="w-12 h-12 rounded-2xl bg-indigo-600/10 flex items-center justify-center mb-6 text-indigo-600"><HelpCircle className="w-6 h-6" /></div>
-                                    <h4 className="text-lg font-bold mb-2">{t('dashboard.support')}</h4>
-                                    <p className="text-[var(--text-muted)] text-sm mb-8">{t('dashboard.support_desc')}</p>
-                                    <button onClick={openContact} className="w-full py-4 border border-[var(--card-border)] rounded-2xl font-bold hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer">{t('dashboard.contact_support')}</button>
-                                </div>
-                            </div>
-                        </>
+                        </div>
                     ) : (
                         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="glass border-[var(--card-border)] bg-[var(--card-bg)] rounded-[2rem] p-8 md:p-12 shadow-sm">
                             <h3 className="text-2xl font-bold mb-8">{t('dashboard.menu_history')}</h3>
@@ -271,8 +271,8 @@ const MyPage = () => {
                                             licenses.map((item) => (
                                                 <tr key={item.id} className="group">
                                                     <td className="py-6 min-w-[200px]">
-                                                        <div className="font-bold">VideoLighter Pro License</div>
-                                                        <div className="text-xs text-[var(--text-muted)] font-mono mt-1">{item.license_key}</div>
+                                                        <div className="font-bold text-lg">{item.product_name || item.product_type || 'VideoLighter License'}</div>
+                                                        <div className="text-xs text-[var(--text-muted)] font-mono mt-1 tracking-wider opacity-60">{item.license_key}</div>
                                                     </td>
                                                     <td className="py-6 text-sm text-[var(--text-muted)]">
                                                         {new Date(item.created_at).toLocaleDateString()}
