@@ -9,8 +9,10 @@ desktop-app/node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
+.env.example
 web/.env
 web/.env.local
+web/.env.example
 
 # Build outputs
 web/dist/
