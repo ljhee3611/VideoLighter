@@ -3,9 +3,15 @@ node_modules/
 web/node_modules/
 desktop-app/node_modules/
 
+# Design Assets / Prototypes
+videolighter_desktop_design/
+videolighter_web_design/
+
 # Tauri / Rust
 desktop-app/src-tauri/target/
 desktop-app/src-tauri/binaries/
+desktop-app/src-tauri/bin/
+desktop-app/src-tauri/*.exe
 desktop-app/dist/
 
 # Environment variables
