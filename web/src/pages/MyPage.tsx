@@ -87,7 +87,12 @@ const MyPage = () => {
     };
 
     const handleDownload = () => {
-        alert('Windows Installer Download Starting...');
+        const downloadUrl = import.meta.env.VITE_DOWNLOAD_URL;
+        if (downloadUrl) {
+            window.location.href = downloadUrl;
+        } else {
+            alert('Download URL is not configured.');
+        }
     };
 
     return (

@@ -273,10 +273,36 @@ const Home = () => {
                 {/* Features Section */}
                 <section id="features" className="py-24 px-6 bg-[var(--bg-secondary)]">
                     <div className="max-w-7xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-2xl md:text-4xl font-bold mb-4 text-[var(--text-color)]">{t('nav.features')}</h2>
+                            <p className="text-[var(--text-muted)] max-w-2xl mx-auto">{t('hero.subtitle')}</p>
+                        </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                            <FeatureCard icon={Monitor} title={t('features.p1_title')} desc={t('features.p1_desc')} />
-                            <FeatureCard icon={Lock} title={t('features.p2_title')} desc={t('features.p2_desc')} />
-                            <FeatureCard icon={MousePointer2} title={t('features.p3_title')} desc={t('features.p3_desc')} />
+                            <FeatureCard icon={Zap} title={t('features.p1_title')} desc={t('features.p1_desc')} />
+                            <FeatureCard icon={MousePointer2} title={t('features.p2_title')} desc={t('features.p2_desc')} />
+                            <FeatureCard icon={Lock} title={t('features.p3_title')} desc={t('features.p3_desc')} />
+                        </div>
+
+                        {/* Advanced Tech Row */}
+                        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="p-8 rounded-3xl border border-[var(--card-border)] bg-gradient-to-br from-indigo-500/5 to-purple-500/5 flex flex-col md:flex-row gap-6 items-center group hover:border-indigo-500/30 transition-all">
+                                <div className="w-16 h-16 rounded-2xl bg-indigo-600/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-all">
+                                    <Sun className="w-8 h-8 text-indigo-400" />
+                                </div>
+                                <div className="text-center md:text-left">
+                                    <h4 className="text-lg font-bold mb-1">{t('advanced_features.hdr_title')}</h4>
+                                    <p className="text-sm text-[var(--text-muted)] leading-relaxed">{t('advanced_features.hdr_desc')}</p>
+                                </div>
+                            </div>
+                            <div className="p-8 rounded-3xl border border-[var(--card-border)] bg-gradient-to-br from-purple-500/5 to-indigo-500/5 flex flex-col md:flex-row gap-6 items-center group hover:border-purple-500/30 transition-all">
+                                <div className="w-16 h-16 rounded-2xl bg-purple-600/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-all">
+                                    <Monitor className="w-8 h-8 text-purple-400" />
+                                </div>
+                                <div className="text-center md:text-left">
+                                    <h4 className="text-lg font-bold mb-1">{t('advanced_features.parallel_title')}</h4>
+                                    <p className="text-sm text-[var(--text-muted)] leading-relaxed">{t('advanced_features.parallel_desc')}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>

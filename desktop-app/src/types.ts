@@ -34,6 +34,7 @@ export interface CompressionSettings {
     enableThumbnail: boolean;
     outputMode: 'Same' | 'Custom';
     customOutputPath?: string;
+    useHighEfficiencyCodec: boolean; // true = AV1 (High Tech), false = VP9 (Safe)
 }
 
 export type Language = 'en' | 'ko';
@@ -62,14 +63,6 @@ export interface Translation {
     theme: string;
     language: string;
     // New fields
-    subjectiveVQ: string;
-    subjectiveVQTip: string;
-    hdr: string;
-    hdrTip: string;
-    deshake: string;
-    deshakeTip: string;
-    metadata: string;
-    metadataTip: string;
     custom: string;
     lockRatio: string;
     quality: string;
@@ -101,9 +94,25 @@ export interface Translation {
     turboTip: string;
     parallel: string;
     parallelTip: string;
-    watermark: string;
-    watermarkTip: string;
-    thumbnail: string;
-    thumbnailTip: string;
+
+    // Presets
+    bestQuality: string;
+    bestQualityDesc: string;
+    balanced: string;
+    balancedDesc: string;
+    smallestSize: string;
+    smallestSizeDesc: string;
+
+    // Magic Features
+    subjectiveVQ: string;
+    subjectiveVQTip: string;
+    hdr: string;
+    hdrTip: string;
+    metadata: string;
+    metadataTip: string;
+
     folderOpen: string;
+    highEfficiency: string;
+    highEfficiencyTip: string;
+    downloadCodec: string;
 }

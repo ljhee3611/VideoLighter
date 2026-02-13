@@ -39,19 +39,21 @@ const App: React.FC = () => {
         format: 'MP4',
         resolution: 'Original',
         lockAspectRatio: true,
-        compressionLevel: 5,
+        compressionLevel: 6, // Balanced default
         removeAudio: false,
         moveToTrash: false,
-        subjectiveVQ: false,
+        subjectiveVQ: true, // Always ON (Magic Quality)
         enableHDR: false,
-        enableDeshake: false,
-        cleanMetadata: false,
-        enableTurbo: true,
-        parallelLimit: 1,
-        enableWatermark: false,
-        enableThumbnail: false,
+        enableDeshake: false, // Removed feature
+        cleanMetadata: false, // Default to OFF (Keep metadata)
+        enableTurbo: false,
+        parallelLimit: 2,
+        enableWatermark: false, // Removed feature
+        watermarkText: undefined,
+        enableThumbnail: false, // Removed feature
         outputMode: 'Same',
         customOutputPath: undefined,
+        useHighEfficiencyCodec: false, // Default to FALSE (VP9 Safe)
     });
 
     const [isProcessing, setIsProcessing] = useState(false);

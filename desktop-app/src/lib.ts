@@ -80,40 +80,66 @@ export function compressVideo(
         if (options.format === 'GIF') {
             args.push('-vf', 'fps=15,scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse');
         } else {
-            // Priority: Hardware Encoder (if Turbo) > SVT-AV1 > Software
-            let finalEncoder = encoder;
-            if (options.enableTurbo) {
-                // If Turbo is on, we look for HW encoders specifically
-                if (encoder.includes('nvenc') || encoder.includes('qsv') || encoder.includes('amf')) {
-                    finalEncoder = encoder;
+            // Priority: Hardware Encoder (if Turbo) > Specified Codec > Software
+            let finalEncoder = 'libaom-av1';
+
+            if (options.useHighEfficiencyCodec) {
+                // === AV1 Mode (High Efficiency) ===
+                finalEncoder = encoder; // Default to best detected AV1 encoder
+
+                if (options.enableTurbo) {
+                    if (encoder.includes('nvenc') || encoder.includes('qsv') || encoder.includes('amf')) {
+                        finalEncoder = encoder;
+                    }
                 }
-            }
 
-            args.push('-c:v', finalEncoder);
+                args.push('-c:v', finalEncoder);
 
-            // Quality Mapping (1 to 10 Gauge)
-            const crfValue = 18 + (options.compressionLevel - 1) * 3.5;
+                // Quality Mapping (1 to 10 Gauge)
+                const crfValue = 18 + (options.compressionLevel - 1) * 3.5;
 
-            if (finalEncoder === 'libsvtav1') {
-                args.push('-crf', Math.round(crfValue).toString());
-                // Turbo uses preset 10 (very fast), Standard uses 6 (balanced)
-                args.push('-preset', options.enableTurbo ? '10' : '6');
+                if (finalEncoder === 'libsvtav1') {
+                    args.push('-crf', Math.round(crfValue).toString());
+                    args.push('-preset', options.enableTurbo ? '10' : '6');
 
-                const svtParams: string[] = [];
-                if (options.subjectiveVQ) svtParams.push('tune=0');
-                if (options.enableHDR) {
-                    args.push('-pix_fmt', 'yuv420p10le');
-                    svtParams.push('enable-hdr=1');
+                    const svtParams: string[] = [];
+                    if (options.subjectiveVQ) svtParams.push('tune=0');
+                    if (options.enableHDR) {
+                        args.push('-pix_fmt', 'yuv420p10le');
+                        svtParams.push('enable-hdr=1');
+                    }
+                    if (options.enableTurbo) svtParams.push('tile-columns=2', 'tile-rows=1');
+
+                    if (svtParams.length > 0) args.push('-svtav1-params', svtParams.join(':'));
+                } else if (finalEncoder.includes('nvenc')) {
+                    args.push('-rc', 'vbr', '-cq', Math.round(crfValue).toString(), '-preset', options.enableTurbo ? 'p1' : 'p4');
+                } else {
+                    // Fallback (likely libaom-av1)
+                    args.push('-crf', Math.round(crfValue).toString());
+                    args.push('-cpu-used', options.enableTurbo ? '8' : '4');
                 }
-                // Multi-threading boost
-                if (options.enableTurbo) svtParams.push('tile-columns=2', 'tile-rows=1');
-
-                if (svtParams.length > 0) args.push('-svtav1-params', svtParams.join(':'));
-            } else if (finalEncoder.includes('nvenc')) {
-                // NVIDIA HW Accl (uses -cq instead of -crf usually)
-                args.push('-rc', 'vbr', '-cq', Math.round(crfValue).toString(), '-preset', options.enableTurbo ? 'p1' : 'p4');
             } else {
+                // === VP9 Mode (Safe Default) ===
+                // Uses libvpx-vp9 which is Royalty-Free and widely supported
+                finalEncoder = 'libvpx-vp9';
+
+                args.push('-c:v', finalEncoder);
+
+                // VP9 Quality: CRF 0-63. Useful range 15-50.
+                const crfValue = 28 + (options.compressionLevel - 1) * 2.5;
+
+                args.push('-b:v', '0'); // Constrained Quality mode
                 args.push('-crf', Math.round(crfValue).toString());
+
+                // Speed Optimization: Realtime mode is much faster
+                args.push('-deadline', 'realtime');
+
+                // Speed vs Quality trade-off
+                // -cpu-used: 0-8 for realtime. 8 is fastest.
+                // We use 5-8 range for decent speed
+                args.push('-cpu-used', options.enableTurbo ? '8' : '5');
+
+                args.push('-row-mt', '1'); // Multi-threading
             }
 
             // Global Thread Optimization

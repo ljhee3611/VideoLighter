@@ -82,6 +82,42 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ settings, updateSe
                                 {RESOLUTION_OPTIONS.map(res => <option key={res} value={res}>{t[res.toLowerCase() as keyof Translation] || res}</option>)}
                             </select>
                         </section>
+                        <section className="col-span-2">
+                            <label className="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl hover:border-primary-500 transition-all cursor-pointer group mb-1">
+                                <div className="flex items-center gap-2 flex-1">
+                                    <Monitor size={16} className={`text-gray-400 group-hover:text-primary-500 ${settings.useHighEfficiencyCodec ? 'text-primary-500' : ''}`} />
+                                    <div>
+                                        <div className="flex items-center gap-1">
+                                            <span className="text-xs font-bold text-gray-700 dark:text-slate-200">{t.highEfficiency}</span>
+                                            <Tooltip text={t.highEfficiencyTip} />
+                                        </div>
+                                        <p className="text-[10px] text-gray-400 mt-0.5">
+                                            {settings.useHighEfficiencyCodec ? 'AV1 (Maximum Compression)' : 'VP9 (Wide Compatibility)'}
+                                        </p>
+                                    </div>
+                                </div>
+                                <input
+                                    type="checkbox"
+                                    checked={settings.useHighEfficiencyCodec}
+                                    onChange={(e) => updateSettings({ useHighEfficiencyCodec: e.target.checked })}
+                                    className="w-4 h-4 rounded text-primary-500 focus:ring-primary-500"
+                                />
+                            </label>
+                            {/* Download Link for AV1 Codec */}
+                            {settings.useHighEfficiencyCodec && (
+                                <button
+                                    type="button"
+                                    className="ml-2 text-[10px] text-primary-500 underline hover:text-primary-600 transition-colors flex items-center gap-1 bg-transparent border-0 p-0 cursor-pointer"
+                                    onClick={() => {
+                                        import('@tauri-apps/plugin-shell').then(({ open }) => {
+                                            open('https://apps.microsoft.com/detail/9mvzqvxjbq9v?hl=en-US&gl=US');
+                                        });
+                                    }}
+                                >
+                                    {t.downloadCodec} ↗
+                                </button>
+                            )}
+                        </section>
                     </div>
 
                     {/* Custom Resolution Inputs */}
@@ -160,7 +196,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ settings, updateSe
                     </div>
                 </div>
 
-                {/* 3. Compression Quality Gauge */}
+                {/* 3. Compression Quality & Presets */}
                 <section className="p-4 bg-gray-50 dark:bg-slate-900/50 rounded-2xl border border-gray-100 dark:border-slate-800">
                     <div className="flex justify-between items-center mb-4">
                         <label className="text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
@@ -168,6 +204,61 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ settings, updateSe
                         </label>
                         <span className="text-xs font-bold px-2 py-0.5 bg-primary-500 text-white rounded-full">Level {settings.compressionLevel}</span>
                     </div>
+
+                    {/* Golden Presets Buttons */}
+                    <div className="grid grid-cols-3 gap-2 mb-6">
+                        <button
+                            onClick={() => updateSettings({
+                                compressionLevel: 4,
+                                enableTurbo: false,
+                                subjectiveVQ: true
+                            })}
+                            className={`flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${settings.compressionLevel === 4 && !settings.enableTurbo
+                                ? 'bg-white dark:bg-slate-800 border-primary-500 ring-1 ring-primary-500 shadow-sm'
+                                : 'bg-transparent border-transparent hover:bg-white/50 dark:hover:bg-slate-800/50'
+                                }`}
+                        >
+                            <span className="text-xl mb-1">💎</span>
+                            <span className="text-[10px] font-bold text-gray-700 dark:text-slate-200">{t.bestQuality}</span>
+                        </button>
+                        <button
+                            onClick={() => updateSettings({
+                                compressionLevel: 6,
+                                enableTurbo: false,
+                                subjectiveVQ: true
+                            })}
+                            className={`flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${settings.compressionLevel === 6 && !settings.enableTurbo
+                                ? 'bg-white dark:bg-slate-800 border-primary-500 ring-1 ring-primary-500 shadow-sm'
+                                : 'bg-transparent border-transparent hover:bg-white/50 dark:hover:bg-slate-800/50'
+                                }`}
+                        >
+                            <span className="text-xl mb-1">⚖️</span>
+                            <span className="text-[10px] font-bold text-gray-700 dark:text-slate-200">{t.balanced}</span>
+                        </button>
+                        <button
+                            onClick={() => updateSettings({
+                                compressionLevel: 8,
+                                enableTurbo: true,
+                                subjectiveVQ: true
+                            })}
+                            className={`flex flex-col items-center justify-center p-2 rounded-xl border transition-all ${settings.compressionLevel >= 8 && settings.enableTurbo
+                                ? 'bg-white dark:bg-slate-800 border-primary-500 ring-1 ring-primary-500 shadow-sm'
+                                : 'bg-transparent border-transparent hover:bg-white/50 dark:hover:bg-slate-800/50'
+                                }`}
+                        >
+                            <span className="text-xl mb-1">⚡</span>
+                            <span className="text-[10px] font-bold text-gray-700 dark:text-slate-200">{t.smallestSize}</span>
+                        </button>
+                    </div>
+
+                    {/* Description based on preset */}
+                    <div className="mb-4 p-3 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700">
+                        <p className="text-xs text-center text-gray-600 dark:text-slate-300 font-medium">
+                            {settings.compressionLevel <= 4 ? t.bestQualityDesc :
+                                settings.compressionLevel >= 8 ? t.smallestSizeDesc : t.balancedDesc}
+                        </p>
+                    </div>
+
                     <input
                         type="range"
                         min="1"
@@ -224,6 +315,39 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ settings, updateSe
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 pb-8">
+                    {/* Magic Features: Subjective VQ & HDR */}
+                    <label className="group flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl hover:border-primary-500 transition-all cursor-pointer">
+                        <div className="flex items-center gap-3">
+                            <Wand2 size={16} className="text-purple-500 group-hover:scale-110 transition-transform" />
+                            <div>
+                                <span className="text-sm font-bold text-gray-700 dark:text-slate-200">{t.subjectiveVQ}</span>
+                                <Tooltip text={t.subjectiveVQTip} />
+                            </div>
+                        </div>
+                        <input
+                            type="checkbox"
+                            checked={settings.subjectiveVQ}
+                            onChange={(e) => updateSettings({ subjectiveVQ: e.target.checked })}
+                            className="w-4 h-4 rounded text-primary-500 focus:ring-0"
+                        />
+                    </label>
+
+                    <label className="group flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl hover:border-primary-500 transition-all cursor-pointer">
+                        <div className="flex items-center gap-3">
+                            <Monitor size={16} className="text-blue-500 group-hover:scale-110 transition-transform" />
+                            <div>
+                                <span className="text-sm font-bold text-gray-700 dark:text-slate-200">{t.hdr}</span>
+                                <Tooltip text={t.hdrTip} />
+                            </div>
+                        </div>
+                        <input
+                            type="checkbox"
+                            checked={settings.enableHDR}
+                            onChange={(e) => updateSettings({ enableHDR: e.target.checked })}
+                            className="w-4 h-4 rounded text-primary-500 focus:ring-0"
+                        />
+                    </label>
+
                     {/* Turbo Mode */}
                     <label className="group flex items-center justify-between p-3 bg-primary-50 dark:bg-primary-900/10 border border-primary-100 dark:border-primary-900/30 rounded-xl hover:border-primary-500 transition-all cursor-pointer ring-1 ring-primary-500/20">
                         <div className="flex items-center gap-3">
@@ -263,77 +387,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ settings, updateSe
                             </select>
                         </div>
                     </div>
-
-                    {/* Watermark */}
-                    <div className="group flex flex-col p-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl hover:border-primary-500 transition-all">
-                        <label className="flex items-center justify-between cursor-pointer mb-2">
-                            <div className="flex items-center gap-3">
-                                <Wand2 size={16} className="text-gray-400 group-hover:text-primary-500" />
-                                <div>
-                                    <span className="text-sm font-medium text-gray-700 dark:text-slate-200">{t.watermark}</span>
-                                    <Tooltip text={t.watermarkTip} />
-                                </div>
-                            </div>
-                            <input type="checkbox" checked={settings.enableWatermark} onChange={(e) => updateSettings({ enableWatermark: e.target.checked })} className="w-4 h-4 rounded text-primary-500 focus:ring-0" />
-                        </label>
-                        {settings.enableWatermark && (
-                            <input
-                                type="text"
-                                value={settings.watermarkText || ''}
-                                placeholder="VideoLighter"
-                                onChange={(e) => updateSettings({ watermarkText: e.target.value })}
-                                className="w-full mt-1 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded p-1.5 text-xs outline-none focus:ring-1 focus:ring-primary-500"
-                            />
-                        )}
-                    </div>
-
-                    {/* Thumbnail */}
-                    <label className="group flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl hover:border-primary-500 transition-all cursor-pointer">
-                        <div className="flex items-center gap-3">
-                            <Monitor size={16} className="text-gray-400 group-hover:text-primary-500" />
-                            <div>
-                                <span className="text-sm font-medium text-gray-700 dark:text-slate-200">{t.thumbnail}</span>
-                                <Tooltip text={t.thumbnailTip} />
-                            </div>
-                        </div>
-                        <input type="checkbox" checked={settings.enableThumbnail} onChange={(e) => updateSettings({ enableThumbnail: e.target.checked })} className="w-4 h-4 rounded text-primary-500 focus:ring-0" />
-                    </label>
-
-                    {/* Subjective VQ */}
-                    <label className="group flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl hover:border-primary-500 transition-all cursor-pointer">
-                        <div className="flex items-center gap-3">
-                            <Wand2 size={16} className="text-gray-400 group-hover:text-primary-500" />
-                            <div>
-                                <span className="text-sm font-medium text-gray-700 dark:text-slate-200">{t.subjectiveVQ}</span>
-                                <Tooltip text={t.subjectiveVQTip} />
-                            </div>
-                        </div>
-                        <input type="checkbox" checked={settings.subjectiveVQ} onChange={(e) => updateSettings({ subjectiveVQ: e.target.checked })} className="w-4 h-4 rounded text-primary-500 focus:ring-0" />
-                    </label>
-
-                    {/* HDR */}
-                    <label className="group flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl hover:border-primary-500 transition-all cursor-pointer">
-                        <div className="flex items-center gap-3">
-                            <Monitor size={16} className="text-gray-400 group-hover:text-primary-500" />
-                            <div>
-                                <span className="text-sm font-medium text-gray-700 dark:text-slate-200">{t.hdr}</span>
-                                <Tooltip text={t.hdrTip} />
-                            </div>
-                        </div>
-                        <input type="checkbox" checked={settings.enableHDR} onChange={(e) => updateSettings({ enableHDR: e.target.checked })} className="w-4 h-4 rounded text-primary-500 focus:ring-0" />
-                    </label>
-
-                    {/* Deshake */}
-                    <label className="group flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl hover:border-primary-500 transition-all cursor-pointer">
-                        <div className="flex items-center gap-3">
-                            <Wind size={16} className="text-gray-400 group-hover:text-primary-500" />
-                            <div>
-                                <span className="text-sm font-medium text-gray-700 dark:text-slate-200">{t.deshake}</span>
-                                <Tooltip text={t.deshakeTip} />
-                            </div>
-                        </div>
-                        <input type="checkbox" checked={settings.enableDeshake} onChange={(e) => updateSettings({ enableDeshake: e.target.checked })} className="w-4 h-4 rounded text-primary-500 focus:ring-0" />
-                    </label>
 
                     {/* Metadata */}
                     <label className="group flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl hover:border-primary-500 transition-all cursor-pointer">

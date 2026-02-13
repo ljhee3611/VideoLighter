@@ -24,14 +24,6 @@ export const TRANSLATIONS: Record<Language, Translation> = {
         clearAll: "Clear All",
         theme: "Theme",
         language: "Language",
-        subjectiveVQ: "Subjective VQ Tuning",
-        subjectiveVQTip: "Applies an algorithm that finds the most natural quality for human eyes.",
-        hdr: "10-bit HDR Support",
-        hdrTip: "Supports high-bandwidth color for professional-grade video distribution.",
-        deshake: "Video Stabilization (Deshake)",
-        deshakeTip: "Reduces camera shake in handheld videos using FFmpeg's deshake filter.",
-        metadata: "Metadata Cleaning",
-        metadataTip: "Removes technical metadata (GPS, device info) to protect your privacy.",
         custom: "Custom",
         lockRatio: "Lock Ratio",
         quality: "Compression Quality",
@@ -61,13 +53,29 @@ export const TRANSLATIONS: Record<Language, Translation> = {
         activationSuccess: "Activation successful! Welcome to VideoLighter.",
         turbo: "Turbo Acceleration Mode",
         turboTip: "Enables hardware acceleration and optimized SVT-AV1 presets for up to 3x faster compression.",
-        parallel: "Parallel Compression",
-        parallelTip: "Compresses multiple files at once. Speed depends on your CPU core count.",
-        watermark: "Add Watermark",
-        watermarkTip: "Overlays custom text on the bottom-right of the video for copyright protection.",
-        thumbnail: "Generate Thumbnail",
-        thumbnailTip: "Automatically extracts the best frame as a high-quality JPG image.",
-        folderOpen: "Open in folder"
+        parallel: "Parallel Processing",
+        parallelTip: "Compress multiple videos at once. Higher numbers use more CPU.",
+
+        // Preset Descriptions
+        bestQuality: "Best Quality",
+        bestQualityDesc: "Visually identical to original. ~30-50% reduction.",
+        balanced: "Balanced",
+        balancedDesc: "Great for sharing. High quality, optimized size.",
+        smallestSize: "Smallest Size",
+        smallestSizeDesc: "Maximum compression for quick messaging.",
+
+        // Magic Features
+        subjectiveVQ: "Perceptual Quality Magic",
+        subjectiveVQTip: "Focuses quality where human eyes notice most (faces, brightness). Reduces size while looking better!",
+        hdr: "Keep HDR Colors (10-bit)",
+        hdrTip: "Preserves the vivid colors of iPhone/Galaxy HDR videos. Essential for modern phone clips.",
+        metadata: "Metadata Cleaning",
+        metadataTip: "Removes technical metadata (GPS, device info) to protect your privacy.",
+
+        highEfficiency: "Next-Gen Compression (AV1)",
+        highEfficiencyTip: "Enables ~30% better compression using latest AV1 technology. Requires AV1 codec on playback device.",
+        downloadCodec: "Download AV1 Codec",
+        folderOpen: "Open in folder",
     },
     ko: {
         dropText: "동영상을 이곳에 드래그하여 용량을 줄이세요",
@@ -92,14 +100,6 @@ export const TRANSLATIONS: Record<Language, Translation> = {
         clearAll: "전체 삭제",
         theme: "테마",
         language: "언어",
-        subjectiveVQ: "인지 화질 최적화",
-        subjectiveVQTip: "사람이 보기에 가장 자연스러운 화질을 찾아주는 알고리즘을 적용합니다.",
-        hdr: "10-bit HDR 지원",
-        hdrTip: "전문가급 영상 배포를 위한 고대역폭 색상을 지원합니다.",
-        deshake: "영상 안정화 (Deshake)",
-        deshakeTip: "영상 필터를 사용하여 촬영 시 발생한 흔들림을 보정합니다.",
-        metadata: "메타데이터 클리닝",
-        metadataTip: "GPS, 기기 정보 등 사생활과 직결된 기술 정보를 깨끗이 제거합니다.",
         custom: "직접 입력",
         lockRatio: "비율 고정",
         quality: "압축률 설정",
@@ -129,13 +129,29 @@ export const TRANSLATIONS: Record<Language, Translation> = {
         activationSuccess: "활성화 성공! VideoLighter의 모든 기능을 사용하실 수 있습니다.",
         turbo: "터보 가속 모드",
         turboTip: "하드웨어 가속(GPU) 및 최적화된 프리셋을 사용하여 압축 속도를 최대 3배 이상 높줍니다.",
-        parallel: "다중 파일 동시 압축",
-        parallelTip: "여러 파일을 동시에 압축합니다. CPU 코어 수가 많을수록 효과적입니다.",
-        watermark: "워터마크 추가",
-        watermarkTip: "영상 우측 하단에 사용자 지정 텍스트를 삽입하여 도용을 방지합니다.",
-        thumbnail: "썸네일 자동 생성",
-        thumbnailTip: "압축 완료 시 가장 선명한 장면을 JPG 이미지로 자동 추출합니다.",
-        folderOpen: "저장 폴더 열기"
+        parallel: "병렬 압축",
+        parallelTip: "여러 파일을 동시에 압축합니다. CPU 성능에 따라 속도가 달라집니다.",
+
+        // Preset Descriptions
+        bestQuality: "최고 화질",
+        bestQualityDesc: "원본과 거의 동일한 화질. 용량은 30-50% 줄어듭니다.",
+        balanced: "균형 모드 (추천)",
+        balancedDesc: "공유하기 딱 좋은 품질과 용량입니다. 가장 안전한 선택!",
+        smallestSize: "용량 우선",
+        smallestSizeDesc: "카톡 전송용으로 최고! 용량을 극한까지 줄입니다.",
+
+        // Magic Features
+        subjectiveVQ: "인지 화질 최적화 (매직)",
+        subjectiveVQTip: "기계적인 계산 대신, 사람 눈이 민감한 곳(얼굴 등) 위주로 화질을 챙깁니다. 용량은 더 줄고 화질은 더 좋아 보입니다!",
+        hdr: "HDR 색감 유지 (10-bit)",
+        hdrTip: "전문가급 영상 배포를 위한 고대역폭 색상을 지원합니다.",
+        metadata: "메타데이터 클리닝",
+        metadataTip: "GPS, 기기 정보 등 사생활과 직결된 기술 정보를 깨끗이 제거합니다.",
+
+        folderOpen: "저장 폴더 열기",
+        highEfficiency: "차세대 고압축 (AV1)",
+        highEfficiencyTip: "최신 AV1 기술로 30% 더 압축합니다. 재생 기기에 AV1 코덱이 필요할 수 있습니다.",
+        downloadCodec: "AV1 코덱 다운로드 (무료)",
     }
 };
 

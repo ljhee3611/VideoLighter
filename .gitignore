@@ -47,3 +47,13 @@ lerna-debug.log*
 # OS Files
 Thumbs.db
 desktop.ini
+
+# Local state and tools
+.wrangler/
+desktop-app/.wrangler/
+desktop-app/src-tauri/target/
+desktop-app/src-tauri/gen/
+desktop-app/src-tauri/bundle/
+*.msi
+*.exe
+
