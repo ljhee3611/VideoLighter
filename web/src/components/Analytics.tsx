@@ -18,11 +18,12 @@ const Analytics = () => {
 
     if (!window.dataLayer) window.dataLayer = [];
     if (!window.gtag) {
-      window.gtag = function gtag(...args: unknown[]) {
-        window.dataLayer.push(args);
+      window.gtag = function gtag() {
+        // Match Google's recommended format: dataLayer.push(arguments)
+        window.dataLayer.push(arguments);
       };
       window.gtag('js', new Date());
-      window.gtag('config', measurementId, { send_page_view: false });
+      window.gtag('config', measurementId);
     }
 
     const scriptId = `ga4-${measurementId}`;
