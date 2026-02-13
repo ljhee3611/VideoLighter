@@ -5,11 +5,13 @@ import DesignTest from './pages/DesignTest';
 import AdminPage from './pages/AdminPage';
 import { AuthProvider } from './hooks/useAuth';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import Analytics from './components/Analytics';
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <Analytics />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/design-test" element={<DesignTest />} />

@@ -277,10 +277,37 @@ const Home = () => {
     const lifetimeSubTextClass = themeClass(theme, 'text-indigo-800', 'text-white');
     const lifetimeBoxClass = themeClass(theme, 'bg-indigo-50/70 border-indigo-200/80', 'bg-slate-950/85 border-slate-500/70');
     const lifetimeDividerClass = themeClass(theme, 'bg-indigo-200/80', 'bg-slate-600/70');
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "VideoLighter",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Windows 10, Windows 11",
+        "offers": [
+            {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+                "name": "Free Plan"
+            },
+            {
+                "@type": "Offer",
+                "price": "3.99",
+                "priceCurrency": "USD",
+                "name": "1 Month Unlimited"
+            },
+            {
+                "@type": "Offer",
+                "price": "14.99",
+                "priceCurrency": "USD",
+                "name": "Lifetime Pass"
+            }
+        ]
+    };
 
     return (
         <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] selection:bg-indigo-500/30">
-            <SEO />
+            <SEO canonicalPath="/" structuredData={structuredData} />
             <Navbar
                 user={user}
                 signInWithGoogle={signInWithGoogle}

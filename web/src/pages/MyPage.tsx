@@ -776,7 +776,7 @@ const MyPage = () => {
             userEmail={user?.email}
             onLogout={signOut}
         >
-            <SEO title={`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} | VideoLighter`} />
+            <SEO title={`${activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} | VideoLighter`} canonicalPath="/mypage" noindex />
 
             {loading ? (
                 <div className="min-h-[500px] flex items-center justify-center">
