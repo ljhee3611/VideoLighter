@@ -9,6 +9,8 @@ interface BottomBarProps {
     currentFileId: string | null;
     files: VideoFile[];
     t: Translation;
+    startDisabled?: boolean;
+    statusMessage?: string | null;
 }
 
 export const BottomBar: React.FC<BottomBarProps> = ({
@@ -17,7 +19,9 @@ export const BottomBar: React.FC<BottomBarProps> = ({
     totalProgress,
     currentFileId,
     files,
-    t
+    t,
+    startDisabled = false,
+    statusMessage = null,
 }) => {
     const currentFile = files.find(f => f.id === currentFileId);
     const isAllComplete = files.length > 0 && files.every(f => f.status === 'completed');
@@ -75,10 +79,10 @@ export const BottomBar: React.FC<BottomBarProps> = ({
             {/* Action Button */}
             <button
                 onClick={onStart}
-                disabled={!hasFiles || (isAllComplete && !isProcessing)}
+                disabled={startDisabled || !hasFiles || (isAllComplete && !isProcessing)}
                 className={`relative overflow-hidden group px-8 py-3.5 rounded-xl font-bold text-white shadow-lg transition-all duration-300 transform active:scale-95 ${isProcessing
                         ? 'bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 shadow-red-500/20'
-                        : !hasFiles || isAllComplete
+                        : startDisabled || !hasFiles || isAllComplete
                             ? 'bg-gray-300 dark:bg-slate-800 cursor-not-allowed text-gray-500 dark:text-slate-600 shadow-none'
                             : 'bg-gradient-to-r from-primary-600 to-indigo-700 hover:from-primary-500 hover:to-indigo-600 hover:shadow-primary-500/30'
                     }`}
@@ -97,6 +101,11 @@ export const BottomBar: React.FC<BottomBarProps> = ({
                     )}
                 </span>
             </button>
+            {!isProcessing && statusMessage && (
+                <div className="absolute left-8 bottom-1 text-xs text-gray-500 dark:text-slate-400">
+                    {statusMessage}
+                </div>
+            )}
         </div>
     );
 };

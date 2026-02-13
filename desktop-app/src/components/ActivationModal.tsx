@@ -9,7 +9,7 @@ import { supabase } from '../supabase';
 interface ActivationModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onActivated: () => void;
+    onActivated: (licenseKey: string) => void;
     t: Translation;
     isDark: boolean;
     currentLanguage: Language;
@@ -79,7 +79,7 @@ export const ActivationModal: React.FC<ActivationModalProps> = ({
             // 3. Success
             setStatus('success');
             setTimeout(() => {
-                onActivated();
+                onActivated(trimmedKey);
                 onClose();
             }, 2000);
         } catch (err: any) {
@@ -167,6 +167,19 @@ export const ActivationModal: React.FC<ActivationModalProps> = ({
                         t.activateBtn
                     )}
                 </button>
+
+                {status !== 'success' && (
+                    <button
+                        onClick={onClose}
+                        disabled={status === 'verifying'}
+                        className={`w-full h-12 mt-3 rounded-2xl font-bold text-sm transition-all border cursor-pointer disabled:opacity-60 ${isDark
+                            ? 'border-slate-700 text-slate-300 hover:bg-slate-800'
+                            : 'border-gray-200 text-gray-700 hover:bg-gray-50'
+                            }`}
+                    >
+                        {currentLanguage === 'ko' ? '무료로 사용해보기' : 'Try Free Mode'}
+                    </button>
+                )}
 
                 {/* Footer Links */}
                 <div className="mt-10 flex flex-col gap-3">

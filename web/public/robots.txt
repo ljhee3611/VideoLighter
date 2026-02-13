@@ -2,6 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /mypage
-Disallow: /design-test
 
 Sitemap: https://videolighter.smileon.app/sitemap.xml

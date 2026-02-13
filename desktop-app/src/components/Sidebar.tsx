@@ -13,9 +13,19 @@ interface SidebarProps {
     onClearAll: () => void;
     onOpenFolder: (path: string) => void;
     t: Translation;
+    freePlanMessage?: string | null;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ files, onDrop, onBrowse, onRemove, onClearAll, onOpenFolder, t }) => {
+export const Sidebar: React.FC<SidebarProps> = ({
+    files,
+    onDrop,
+    onBrowse,
+    onRemove,
+    onClearAll,
+    onOpenFolder,
+    t,
+    freePlanMessage = null,
+}) => {
 
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -72,6 +82,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ files, onDrop, onBrowse, onRem
                         </button>
                     )}
                 </div>
+                {freePlanMessage && (
+                    <div className="mb-3 inline-flex items-start gap-2 rounded-lg border border-amber-200/80 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-300">
+                        <AlertCircle size={14} className="mt-0.5 shrink-0" />
+                        <span>{freePlanMessage}</span>
+                    </div>
+                )}
 
                 <div className="flex-1 overflow-y-auto space-y-3 pr-2 scrollbar-thin">
                     {files.length === 0 ? (
